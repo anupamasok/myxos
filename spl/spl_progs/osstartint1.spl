@@ -1,8 +1,12 @@
 load (7,1); //The exception handler
 load (8,2); //from 1,2 blocks to pages 7,8
 
+load (11,5); // The interrupt 1 routine
+load (12,6); // from 5,6 blocks to pages 11,12
+
 load (23,17); // The interrupt 7 routine
 load (24,18); // from 17,18 blocks to pages 23,24
+
 
 [READY_LIST	+ 0*32] = 0; // Finding PCB from ready list and assigning PID
 
@@ -24,12 +28,12 @@ PTLR = 4; // each process 4 pages
 
 [READY_LIST + 0*32 + 1] = 2; //Setting Process State (in 2nd bit in PCB) as 2 (Running)
 
-breakpoint;
+
 SP = 3 * 512; 	// This is the Logical Address (as is used in USER MODE after IRET)
 				// Physical  == [(3* 512) / 512 ] -> 28 (from page table above (PTBR + 2*3))
 
 [28 * 512] =0; 	// Physical location of stack is used to set value for SP in our process
 				// so that IRET will change to USER MODE and then stack is popped
 				// then logical 0 is loaded to IP ,after logical translation of SP.
-breakpoint;
+
 ireturn;
